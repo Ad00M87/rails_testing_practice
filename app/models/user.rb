@@ -5,6 +5,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   validates_presence_of :first_name, :last_name
+  has_many :posts, dependent: :destroy
+
+  def self.by_last_name(asc = true)
+    # order(last_name: :desc)
+    # order(:last_name) (default asc)
+    asc ? order(:last_name) : order(last_name: :desc)
+  end
 
   def info
     "#{email} has signed in: #{sign_in_count} times."
